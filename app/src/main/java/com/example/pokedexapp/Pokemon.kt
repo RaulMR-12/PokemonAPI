@@ -37,7 +37,7 @@ data class Sprites(
     @Expose @SerializedName("back_female") val backFemale: String?,
     @Expose @SerializedName("back_shiny") val backShiny: String?,
     @Expose @SerializedName("back_shiny_female") val backShinyFemale: String?,
-    @Expose @SerializedName("front_default") val frontDefault: String?,
+    @Expose @SerializedName("front_default") val frontDefault: String,
     @Expose @SerializedName("front_female") val frontFemale: String?,
     @Expose @SerializedName("front_shiny") val frontShiny: String?,
     @Expose @SerializedName("front_shiny_female") val frontShinyFemale: String?,

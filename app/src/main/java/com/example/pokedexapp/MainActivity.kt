@@ -6,17 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.pokedexapp.databinding.ActivityMainBinding
 import com.example.pokedexapp.databinding.ActivityPokeInfoBinding
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: PokemonInfoViewModel
     private lateinit var binding: ActivityPokeInfoBinding
+    private lateinit var mainBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         binding = ActivityPokeInfoBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mainBinding.root)
 
         viewModel = ViewModelProvider(this)[PokemonInfoViewModel::class.java]
 
@@ -67,5 +70,14 @@ class MainActivity : AppCompatActivity() {
             viewModel.pokemonInfo.value?.spanishFlavorTextEntries =
                 spanishEntries.map { it.flavorText }
         }
+
+        mainBinding.favoritesButton.setOnClickListener{
+            showFavorites()
+        }
+    }
+
+    private fun showFavorites(){
+        val intent = Intent(this, FavoritesActivity::class.java)
+        startActivity(intent)
     }
 }

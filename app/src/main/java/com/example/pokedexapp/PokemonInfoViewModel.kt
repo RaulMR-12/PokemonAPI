@@ -1,5 +1,6 @@
 package com.example.pokedexapp
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
@@ -8,7 +9,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PokemonInfoViewModel() : ViewModel() {
+class PokemonInfoViewModel(private val context: Context) : ViewModel() {
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://pokeapi.co/api/v2/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -19,6 +20,19 @@ class PokemonInfoViewModel() : ViewModel() {
     val pokemonInfo = MutableLiveData<Pokemon>()
     val pokemonDescription = MutableLiveData<Pokemon>()
     val pokemonListByType = MutableLiveData<List<Pokemon>>()
+
+    val addToFavoritesResult = MutableLiveData<Boolean>()
+
+    fun addToFavorites(pokemon: Pokemon) {
+        val dbHelper = DatabaseHelper(context)
+        val pokedexNumber = pokemon.id
+        val name = pokemon.name
+        val imageUrl = pokemon.sprites.frontDefault
+
+        val rowId = dbHelper.addPokemonToFavorite(pokedexNumber, name, imageUrl)
+
+        addToFavoritesResult.postValue(rowId != -1L)
+    }
 
     fun getPokemonInfo(id: Int){
         val call = service.getPokemonInfo(id)
